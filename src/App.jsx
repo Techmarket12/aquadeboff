@@ -32,32 +32,67 @@ import {
   ZoomIn,
   Maximize2
 } from 'lucide-react';
-import CloudinaryUploader, { uploadFiles } from './components/CloudinaryUploader';
-import ContactPage from './pages/contact';
-import RealisationsPage from './pages/realisations';
-import DepannageFuitesPage from './pages/depannage_fuites';
-import DepannageSanitairesPage from './pages/depannage_sanitaire';
-import DepannageChauffagePage from './pages/depannage_chauffage';
-import RenovationSanitairePage from './pages/renovation_sanitaire';
-import EntretienPage from './pages/entretien';
-import DebouchageWCEviersPage from './pages/wc_evier_debouchage';
-import GoogleAdsTracking from './components/GoogleAdsTracking';
-import NamurPage from './pages/Namur';
-import CharleroiPage from './pages/Charleroi';
-import MonsPage from './pages/mons';
-import BruxellesPage from './pages/Bruxelles';
-import BrabantWallonFlamandPage from './pages/braband_wallon_flamand';
-import LiegePage from './pages/Liege';
-import VerviersPage from './pages/Verviers';
-import ServiceRobinetteriePage from './pages/service_robinetterie';
-import RemplacementCanalisationGresPage from './pages/remplacement_canalisation_gres';
-import InspectionCameraRechercheFuitesPage from './pages/inspection_camera_recherche_fuites';
-import MentionsLegalesPage from './pages/mentions_legales';
-import { getServiceLink } from './utils/serviceRoutes';
-import useSEO from './utils/useSEO';
-import { SEO_CONFIG } from './seoConfig';
 
-// --- STYLES INJECTéS POUR LES ANIMATIONS ---
+/* --- COMPOSANTS MOCKÉS (POUR L'APERÇU UNIQUEMENT) ---
+   Dans votre projet local, décommentez vos imports originaux 
+   et supprimez cette section de mocks.
+*/
+
+// import CloudinaryUploader, { uploadFiles } from './components/CloudinaryUploader';
+const CloudinaryUploader = ({ onFilesChange }) => (
+  <div className="p-4 border-2 border-dashed border-slate-300 rounded-lg text-slate-500 text-center text-sm">
+    <Camera className="w-8 h-8 mx-auto mb-2 opacity-50" />
+    <p>Module d'upload (Mock)</p>
+  </div>
+);
+const uploadFiles = async (files) => files ? Array.from(files).map(f => URL.createObjectURL(f)) : [];
+
+// import GoogleAdsTracking from './components/GoogleAdsTracking';
+const GoogleAdsTracking = () => null;
+
+// Utils Mocks
+// import { getServiceLink } from './utils/serviceRoutes';
+const getServiceLink = (item) => `/service/${item.toLowerCase().replace(/\s+/g, '-')}`;
+
+// import useSEO from './utils/useSEO';
+const useSEO = () => {};
+
+// import { SEO_CONFIG } from './seoConfig';
+const SEO_CONFIG = {};
+
+// Pages Mocks
+const PagePlaceholder = ({ title }) => (
+  <div className="min-h-screen pt-24 pb-12 flex flex-col items-center justify-center bg-slate-50">
+    <h1 className="text-3xl font-black text-slate-900 mb-4">{title}</h1>
+    <p className="text-slate-600">Page en cours de construction ou importée (Mock).</p>
+    <Link to="/" className="mt-8 text-blue-600 hover:underline font-bold">Retour à l'accueil</Link>
+  </div>
+);
+
+const ContactPage = () => <PagePlaceholder title="Contact" />;
+const RealisationsPage = () => <PagePlaceholder title="Réalisations" />;
+const DepannageFuitesPage = () => <PagePlaceholder title="Dépannage Fuites" />;
+const DepannageSanitairesPage = () => <PagePlaceholder title="Dépannage Sanitaires" />;
+const DepannageChauffagePage = () => <PagePlaceholder title="Dépannage Chauffage" />;
+const RenovationSanitairePage = () => <PagePlaceholder title="Rénovation Sanitaire" />;
+const EntretienPage = () => <PagePlaceholder title="Entretien" />;
+const DebouchageWCEviersPage = () => <PagePlaceholder title="Débouchage WC & Éviers" />;
+const NamurPage = () => <PagePlaceholder title="Zone : Namur" />;
+const CharleroiPage = () => <PagePlaceholder title="Zone : Charleroi" />;
+const MonsPage = () => <PagePlaceholder title="Zone : Mons" />;
+const BruxellesPage = () => <PagePlaceholder title="Zone : Bruxelles" />;
+const BrabantWallonFlamandPage = () => <PagePlaceholder title="Zone : Brabant Wallon & Flamand" />;
+const LiegePage = () => <PagePlaceholder title="Zone : Liège" />;
+const VerviersPage = () => <PagePlaceholder title="Zone : Verviers" />;
+const ServiceRobinetteriePage = () => <PagePlaceholder title="Service Robinetterie" />;
+const RemplacementCanalisationGresPage = () => <PagePlaceholder title="Remplacement Canalisation Grès" />;
+const InspectionCameraRechercheFuitesPage = () => <PagePlaceholder title="Inspection Caméra" />;
+const MentionsLegalesPage = () => <PagePlaceholder title="Mentions Légales" />;
+
+/* --- FIN DES MOCKS --- */
+
+
+// --- STYLES INJECTÉS POUR LES ANIMATIONS ---
 const styles = `
   @keyframes scroll {
     0% { transform: translateX(0); }
@@ -87,7 +122,8 @@ const BRAND = {
   phoneDisplay: "0493 41 52 83",
   phoneLink: "tel:0493415283",
   email: "aquadeb22@gmail.com",
-  logoUrl: "https://res\.cloudinary\.com/dw9jkwccj/image/upload/v1770798485/Capture_d_%C3%A9cran_2026-02-11_092757_inubmz\.jpg"
+  // Correction: Suppression des backslashes inutiles dans l'URL
+  logoUrl: "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770798485/Capture_d_%C3%A9cran_2026-02-11_092757_inubmz.jpg"
 };
 
 // --- DATA ---
@@ -100,7 +136,7 @@ const NAV_LINKS = [
     columns: [
       {
         title: 'Plomberie',
-        desc: "Solutions complétes pour l'habitat",
+        desc: "Solutions complètes pour l'habitat", // Correction: complétes -> complètes
         items: [
           'Dépannage fuites',
           'Dépannage sanitaires',
@@ -109,7 +145,7 @@ const NAV_LINKS = [
           'Entretien',
           'Service de robinetterie',
           'Service de boiler / chauffe-eau',
-          'Remplacement canalisation en grés',
+          'Remplacement canalisation en grès', // Correction: grés -> grès
           'Inspection caméra et recherche fuites'
         ]
       },
@@ -135,7 +171,7 @@ const NAV_LINKS = [
       { label: 'Toutes nos zones', href: '/zones' },
       { label: 'Namur et alentours', href: '/zones/namur' },
       { label: 'Charleroi et alentours', href: '/zones/charleroi' },
-      { label: 'Liége et alentours', href: '/zones/liege' },
+      { label: 'Liège et alentours', href: '/zones/liege' }, // Correction: Liége -> Liège
       { label: 'Verviers et alentours', href: '/zones/verviers' },
       { label: 'Mons et alentours', href: '/zones/mons' },
       { label: 'Brabant Wallon & Flamand', href: '/zones/brabant-wallon-flamand' }
@@ -164,21 +200,23 @@ const REALIZATIONS = [
   "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385254/IMG_3469.jpg_ycgn8m.jpg",
   "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385235/IMG_3491.jpg_fuvui5.jpg",
   "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385235/Image_tk9vwd.jpg",
-  "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385234/IMG_3489_utycd7.webp"
+  "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385234/IMG_3489_utycd7.webp",
+  "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770911938/IMG_0981_pm7g41.heic",
+  "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770911937/2025-11-03_rjfcue.webp"
 ];
 
 const REVIEWS = [
-  { name: "Jean Dupont", text: "Intervention rapide pour une fuite d'eau importante. Le technicien était trés pro.", rating: 5, date: "Il y a 3 jours", avatar: "https://i.pravatar.cc/150?img=11" },
+  { name: "Jean Dupont", text: "Intervention rapide pour une fuite d'eau importante. Le technicien était très pro.", rating: 5, date: "Il y a 3 jours", avatar: "https://i.pravatar.cc/150?img=11" }, // trés -> très
   { name: "Marie Laurent", text: "WC débouché en 30 minutes. Travail propre et prix correct. Je recommande.", rating: 5, date: "Il y a 1 semaine", avatar: "https://i.pravatar.cc/150?img=5" },
-  { name: "Pierre Van Hout", text: "Remplacement de chauffe-eau effectué le jour méme. Service impeccable.", rating: 5, date: "Il y a 2 semaines", avatar: "https://i.pravatar.cc/150?img=3" },
-  { name: "Sophie Martin", text: "Trés satisfaite du service. Ils sont venus un dimanche pour une urgence.", rating: 5, date: "Il y a 3 semaines", avatar: "https://i.pravatar.cc/150?img=9" },
-  { name: "Ahmed Benali", text: "Plombier sympa et efficace. Il m'a bien expliqué le probléme.", rating: 4, date: "Il y a 1 mois", avatar: "https://i.pravatar.cc/150?img=13" },
+  { name: "Pierre Van Hout", text: "Remplacement de chauffe-eau effectué le jour même. Service impeccable.", rating: 5, date: "Il y a 2 semaines", avatar: "https://i.pravatar.cc/150?img=3" }, // méme -> même
+  { name: "Sophie Martin", text: "Très satisfaite du service. Ils sont venus un dimanche pour une urgence.", rating: 5, date: "Il y a 3 semaines", avatar: "https://i.pravatar.cc/150?img=9" }, // Trés -> Très
+  { name: "Ahmed Benali", text: "Plombier sympa et efficace. Il m'a bien expliqué le problème.", rating: 4, date: "Il y a 1 mois", avatar: "https://i.pravatar.cc/150?img=13" }, // probléme -> problème
   { name: "Chantal Dubois", text: "Je recommande cette société pour leur réactivité et leur gentillesse.", rating: 5, date: "Il y a 1 mois", avatar: "https://i.pravatar.cc/150?img=20" },
-  { name: "Marc Lambert", text: "Probléme d'égout bouché réglé en un rien de temps. Merci !", rating: 5, date: "Il y a 2 mois", avatar: "https://i.pravatar.cc/150?img=15" },
+  { name: "Marc Lambert", text: "Problème d'égout bouché réglé en un rien de temps. Merci !", rating: 5, date: "Il y a 2 mois", avatar: "https://i.pravatar.cc/150?img=15" }, // Probléme -> Problème
 ];
 
 const ZONES_INTERVENTION_LIST = [
-  "Namur", "Charleroi", "Liége", "Mons", "Bruxelles", "Wavre", "Nivelles", "Waterloo", "Verviers"
+  "Namur", "Charleroi", "Liège", "Mons", "Bruxelles", "Wavre", "Nivelles", "Waterloo", "Verviers" // Liége -> Liège
 ];
 
 const SEOManager = () => {
@@ -257,7 +295,7 @@ const AiDiagnosticModal = ({ isOpen, onClose, onPhoneClick }) => {
               </p>
               <textarea 
                 className="w-full border-2 border-slate-200 rounded-xl p-4 min-h-[120px] focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none resize-none bg-slate-50 text-slate-800 font-medium"
-                placeholder="Décrivez votre probléme ici..."
+                placeholder="Décrivez votre problème ici..." // probléme -> problème
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
@@ -882,7 +920,7 @@ function HomePage() {
                   >
                     <input type="hidden" name="_subject" value="Demande de rappel express" />
                     <div>
-                       <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Votre Urgence</label>
+                        <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Votre Urgence</label>
                       <select
                         name="urgence"
                         className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-3 font-bold text-slate-800 focus:border-blue-500 outline-none transition-colors"
@@ -891,11 +929,11 @@ function HomePage() {
                         <option>WC Bouché</option>
                         <option>Canalisation bouchée</option>
                         <option>Panne Chauffe-eau</option>
-                        <option>? Autre</option>
+                        <option>Autre</option> {/* Correction: ? Autre -> Autre */}
                       </select>
                     </div>
                     <div>
-                       <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Votre Numéro</label>
+                        <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Votre Numéro</label>
                       <input
                         name="phone"
                         type="tel"
@@ -905,7 +943,7 @@ function HomePage() {
                       />
                     </div>
                     <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2">
-                      <Phone className="w-5 h-5" /> être rappelé
+                      <Phone className="w-5 h-5" /> Être rappelé {/* Correction: être -> Être */}
                     </button>
                   </form>
                 </div>
@@ -1009,7 +1047,7 @@ function HomePage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-600 uppercase">Détails du probléme</label>
+                    <label className="text-xs font-bold text-slate-600 uppercase">Détails du problème</label> {/* probléme -> problème */}
                     <textarea
                       name="message"
                       className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:border-blue-500 outline-none transition-colors h-24 resize-none"
@@ -1019,7 +1057,7 @@ function HomePage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-600 uppercase flex items-center justify-between">
-                      <span>Photos du probléme (Optionnel)</span>
+                      <span>Photos du problème (Optionnel)</span> {/* probléme -> problème */}
                     </label>
                     <CloudinaryUploader onFilesChange={setSelectedFiles} />
                   </div>
@@ -1128,7 +1166,7 @@ function HomePage() {
                     <option>WC Bouché</option>
                     <option>Canalisation bouchée</option>
                     <option>Panne Chauffe-eau</option>
-                    <option>? Autre</option>
+                    <option>Autre</option> {/* Correction: ? Autre -> Autre */}
                   </select>
                 </div>
                 <div>
@@ -1141,7 +1179,7 @@ function HomePage() {
                   />
                 </div>
                 <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-95 flex justify-center items-center gap-2">
-                  <Phone className="w-5 h-5" /> être rappelé
+                  <Phone className="w-5 h-5" /> Être rappelé {/* Correction: être -> Être */}
                 </button>
               </form>
             </div>
@@ -1185,19 +1223,19 @@ function HomePage() {
                 />
                 <div className="space-y-6 text-lg text-slate-600">
                   <p>
-                    Chez <strong>Aqua&Deb</strong>, nous intervenons bien au-delé du simple dépannage. Nous sommes spécialisés dans les travaux d'égouttage, le remplacement de canalisations et l'inspection par caméra afin d'identifier précisément l'origine des problémes et d'y apporter une solution fiable et durable.
+                    Chez <strong>Aqua&Deb</strong>, nous intervenons bien au-delà du simple dépannage. Nous sommes spécialisés dans les travaux d'égouttage, le remplacement de canalisations et l'inspection par caméra afin d'identifier précisément l'origine des problèmes et d'y apporter une solution fiable et durable. {/* Correction: au-delé -> au-delà, problémes -> problèmes */}
                   </p>
                   <p>
-                    Gréce é nos équipements de diagnostic de derniére génération, nous localisons fissures, affaissements, obstructions ou ruptures sans travaux inutiles. Chaque intervention commence par une analyse claire de la situation, suivie d'une proposition adaptée é l'installation et au budget du client.
+                    Grâce à nos équipements de diagnostic de dernière génération, nous localisons fissures, affaissements, obstructions ou ruptures sans travaux inutiles. Chaque intervention commence par une analyse claire de la situation, suivie d'une proposition adaptée à l'installation et au budget du client. {/* Correction: Gréce é -> Grâce à, derniére -> dernière, adaptée é -> adaptée à */}
                   </p>
                   <p>
-                    Nous intervenons sur l'ensemble de la <strong>Wallonie et Bruxelles</strong>, aussi bien pour des habitations privées que pour des immeubles ou locaux professionnels, avec la méme exigence de qualité et de propreté.
+                    Nous intervenons sur l'ensemble de la <strong>Wallonie et Bruxelles</strong>, aussi bien pour des habitations privées que pour des immeubles ou locaux professionnels, avec la même exigence de qualité et de propreté. {/* Correction: méme -> même */}
                   </p>
                   <ul className="space-y-3 mt-6">
                     {[
                       "Inspection des canalisations par caméra haute définition",
                       "Travaux d'égouttage complets et réparations ciblées",
-                      "Remplacement de canalisations défectueuses ou obsolétes",
+                      "Remplacement de canalisations défectueuses ou obsolètes", // Correction: obsolétes -> obsolètes
                       "Diagnostic précis avant toute intervention",
                       "Devis clair et détaillé avant travaux",
                       "Respect total de l'habitation et de l'environnement"
@@ -1280,7 +1318,7 @@ function HomePage() {
               <h4 className="text-white font-bold mb-6 uppercase text-xs tracking-wider border-b border-slate-800 pb-2 inline-block">Zones d'intervention</h4>
               <ul className="space-y-2 text-sm">
                 {[
-                  { label: "Liége", href: "/zones/liege" },
+                  { label: "Liège", href: "/zones/liege" }, // Correction: Liége -> Liège
                   { label: "Namur", href: "/zones/namur" },
                   { label: "Charleroi", href: "/zones/charleroi" },
                   { label: "Mons", href: "/zones/mons" },
@@ -1395,41 +1433,3 @@ export default function App() {
     </Router>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
