@@ -619,7 +619,7 @@ export default function ContactPage() {
               <div className="p-6 border border-slate-800 rounded-2xl bg-slate-800/50">
                 <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl font-black">3</div>
                 <h3 className="text-xl font-bold mb-3">Suivi Personnalisé</h3>
-                <p className="text-slate-400">Un interlocuteur unique suit votre dossier de la demande de devis jusqu'é la fin des travaux.</p>
+                <p className="text-slate-400">Un interlocuteur unique suit votre dossier de la demande de devis jusqu'é la fin des travaux</p>
               </div>
             </div>
           </div>
