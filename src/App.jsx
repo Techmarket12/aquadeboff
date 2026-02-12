@@ -201,7 +201,7 @@ const REALIZATIONS = [
   "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385235/IMG_3491.jpg_fuvui5.jpg",
   "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385235/Image_tk9vwd.jpg",
   "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770385234/IMG_3489_utycd7.webp",
-  "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770911938/IMG_0981_pm7g41.heic",
+  "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770912311/IMG_0981_pm7g41_ejuun5.webp",
   "https://res.cloudinary.com/dw9jkwccj/image/upload/v1770911937/2025-11-03_rjfcue.webp"
 ];
 
